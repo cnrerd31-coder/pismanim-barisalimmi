@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Özledim Barışalım mı?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-bg: #fce4ec;
+      --main-pink: #d81b60;
+      --yes-green: #4caf50;
+      --no-red: #f44336;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: var(--pink-bg);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 35px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 85%;
+      max-width: 350px;
+      position: relative;
+      z-index: 10;
+    }
+
+    img {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    h1 { color: var(--main-pink); font-size: 24px; margin: 10px 0; font-weight: 700; }
+    p { color: #777; font-size: 15px; margin-bottom: 25px; }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      min-height: 55px;
+      position: relative;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    #yesBtn {
+      background-color: var(--yes-green);
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    #noBtn {
+      background-color: var(--no-red);
+      color: white;
+      z-index: 100;
+      position: relative;
+      /* Animasyon olmaması için transition eklemiyoruz */
+    }
+
+    .absolute-no {
+      position: fixed !important;
+      transition: none !important; /* Kayarak gitmesini engeller, doğrudan ışınlar */
+    }
+
+    .footer-cr {
+      margin-top: 25px;
+      font-size: 13px;
+      color: #ad1457;
+      font-weight: 600;
+      border-top: 1px solid #f8f8f8;
+      padding-top: 15px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="mainBox">
+  <img id="mainGif" src="https://dxxen.com.tr/kedi1.gif" alt="peach goma">
+  <h1 id="mainTitle">Özledim Barışalım mı?</h1>
+  <p id="mainText">Küs kalmaya gerek yok bence</p>
+
+  <div class="buttons">
+    <button id="yesBtn" onclick="accept()">evet</button>
+    <button id="noBtn" onclick="decline()">hayir</button>
+  </div>
+
+  <div class="footer-cr">
+    cr:ćịnar_owner♡
+  </div>
+</div>
+
+<script>
+  const noBtn = document.getElementById('noBtn');
+  const title = document.getElementById('mainTitle');
+  const text = document.getElementById('mainText');
+  const gif = document.getElementById('mainGif');
+  const mainBox = document.getElementById('mainBox');
+
+  let clickCount = 0;
+
+  const steps = [
+    { t: "Emin misin?", s: "Bir daha düşün bence", g: "https://dxxen.com.tr/kedi2.gif" },
+    { t: "Gerçekten mi?", s: "Kırılıyorum ama", g: "https://dxxen.com.tr/kedi3.gif" },
+    { t: "Peki şimdi başta görelim", s: "Sanırım evete basman gerekiyor :)", g: "https://dxxen.com.tr/kedi4.gif" }
+  ];
+
+  function teleportButton() {
+    // Ekran sınırları içinde rastgele koordinatlar
+    const x = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
+    const y = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
+
+    noBtn.classList.add('absolute-no');
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  }
+
+  function decline() {
+    if (clickCount < steps.length) {
+      title.innerText = steps[clickCount].t;
+      text.innerText = steps[clickCount].s;
+      gif.src = steps[clickCount].g;
+      clickCount++;
+    }
+  }
+
+  // Mouse üstüne geldiği an ışınlanır (Animasyonsuz doğrudan geçiş)
+  noBtn.addEventListener('mouseover', function() {
+    if (clickCount >= steps.length) {
+      teleportButton();
+    }
+  });
+
+  // Mobil cihazlarda dokunur dokunmaz ışınlanması için
+  noBtn.addEventListener('touchstart', function(e) {
+    if (clickCount >= steps.length) {
+      e.preventDefault();
+      teleportButton();
+    }
+  });
+
+  function accept() {
+    mainBox.innerHTML = `
+        <img src="https://dxxen.com.tr/mutlu.gif" alt="mutlu">
+        <h1>yupiii❤️</h1>
+        <p>Biliyordum beni affedeceğini :D</p>
+        <div class="footer-cr">cr:ćịnar_owner♡</div>
+    `;
+    noBtn.style.display = 'none';
+    document.body.style.backgroundColor = '#fff9c4';
+  }
+</script>
+</body>
+</html>
