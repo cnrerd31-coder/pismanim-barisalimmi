@@ -1646,6 +1646,12 @@ class AdminBot:
         self.running = False
 
 
+
+from keep_alive import keep_alive
+keep_alive()
+
+
+
 # ===================== MAIN FUNCTION =====================
 def main():
     """Ana fonksiyon - ID ve Token girişi"""
